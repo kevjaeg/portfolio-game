@@ -17,7 +17,7 @@ export function loadAssets(k) {
 }
 
 export async function loadMap(k) {
-  const mapData = await (await fetch("./map.json")).json();
+  const mapData = await (await fetch(import.meta.env.BASE_URL + "map.json")).json();
   const map = k.add([k.sprite("map"), k.pos(0), k.scale(SCALE_FACTOR)]);
 
   const result = {
