@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Kevin | Developer Portfolio</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <!-- JARVIS Dialog Overlay -->
+    <div id="dialog-container" style="display: none">
+      <div class="dialog-box">
+        <div class="title-bar">
+          <span class="title" id="dialog-title">&gt; LOADING...</span>
+          <button class="close-btn" id="dialog-close">&#10005;</button>
+        </div>
+        <div class="content" id="dialog-content">
+          <span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile D-Pad -->
+    <div id="mobile-controls" class="mobile-controls">
+      <button class="mobile-btn" id="btn-up">&#9650;</button>
+      <div class="mobile-row">
+        <button class="mobile-btn" id="btn-left">&#9668;</button>
+        <button class="mobile-btn" id="btn-down">&#9660;</button>
+        <button class="mobile-btn" id="btn-right">&#9658;</button>
+      </div>
+    </div>
+
+    <!-- Interaction Hint -->
+    <div id="interaction-hint" class="interaction-hint" style="display: none">
+      ENTER &#8629;
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

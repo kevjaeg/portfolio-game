@@ -1,0 +1,48 @@
+@font-face {
+  font-family: "monogram";
+  src: url("/monogram.ttf");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-deep: #0a0e17;
+  --bg-surface: #111827;
+  --bg-elevated: #1f2937;
+  --accent-primary: #00f0ff;
+  --accent-glow: rgba(0, 240, 255, 0.15);
+  --accent-border: rgba(0, 240, 255, 0.3);
+  --accent-secondary: #7c3aed;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-accent: #00f0ff;
+  --text-terminal: #4ade80;
+  --glass-bg: rgba(17, 24, 39, 0.85);
+  --glass-border: rgba(0, 240, 255, 0.2);
+  --glass-blur: 20px;
+  --shadow-glow: 0 0 30px rgba(0, 240, 255, 0.1);
+  --shadow-neon: 0 0 10px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+body {
+  background: var(--bg-deep);
+  overflow: hidden;
+  font-family: "JetBrains Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
