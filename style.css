@@ -230,3 +230,58 @@ canvas {
   background: rgba(0, 240, 255, 0.15);
   box-shadow: var(--shadow-neon);
 }
+
+/* Loading Screen */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.5s ease;
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-content {
+  text-align: center;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.loading-title {
+  color: var(--text-accent);
+  font-size: 24px;
+  letter-spacing: 4px;
+  margin-bottom: 24px;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 2px;
+  background: var(--bg-elevated);
+  border-radius: 1px;
+  overflow: hidden;
+  margin: 0 auto 16px;
+}
+
+.loading-fill {
+  height: 100%;
+  background: var(--accent-primary);
+  box-shadow: var(--shadow-neon);
+  animation: loadingProgress 2s ease-in-out forwards;
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+@keyframes loadingProgress {
+  from { width: 0; }
+  to { width: 100%; }
+}

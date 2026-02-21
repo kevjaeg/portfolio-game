@@ -46,3 +46,9 @@ k.scene("main", async () => {
 });
 
 k.go("main");
+
+k.onLoad(() => {
+  const loadingScreen = document.getElementById("loading-screen");
+  loadingScreen.classList.add("fade-out");
+  setTimeout(() => loadingScreen.remove(), 500);
+});
