@@ -21,34 +21,43 @@ const k = kaplay({
 
 loadAssets(k);
 
+function dismissLoadingScreen() {
+  const el = document.getElementById("loading-screen");
+  if (el) {
+    el.classList.add("fade-out");
+    setTimeout(() => el.remove(), 500);
+  }
+}
+
 k.scene("main", async () => {
-  const { map, mapData, spawnpoints } = await loadMap(k);
-  const player = createPlayer(k, spawnpoints.player, map.pos);
+  try {
+    const { map, mapData, spawnpoints } = await loadMap(k);
+    const player = createPlayer(k, spawnpoints.player, map.pos);
 
-  // Build pathfinding grid from raw boundary data
-  const boundaryLayer = mapData.layers.find((l) => l.name === "boundaries");
-  const rawBoundaries = boundaryLayer ? boundaryLayer.objects : [];
-  const tileSize = mapData.tilewidth;
+    // Build pathfinding grid from raw boundary data
+    const boundaryLayer = mapData.layers.find((l) => l.name === "boundaries");
+    const rawBoundaries = boundaryLayer ? boundaryLayer.objects : [];
+    const tileSize = mapData.tilewidth;
 
-  const pathfindingGrid = new PathfindingGrid(
-    mapData.width * tileSize,
-    mapData.height * tileSize,
-    tileSize,
-    rawBoundaries,
-    SCALE_FACTOR
-  );
+    const pathfindingGrid = new PathfindingGrid(
+      mapData.width * tileSize,
+      mapData.height * tileSize,
+      tileSize,
+      rawBoundaries,
+      SCALE_FACTOR
+    );
 
-  setupKeyboardMovement(k, player);
-  setupClickToMove(k, player, pathfindingGrid);
-  setupCamera(k, player);
-  setupInteractions(k, player);
-  setupMobileControls(k, player);
+    setupKeyboardMovement(k, player);
+    setupClickToMove(k, player, pathfindingGrid);
+    setupCamera(k, player);
+    setupInteractions(k, player);
+    setupMobileControls(k, player);
+
+    dismissLoadingScreen();
+  } catch (err) {
+    console.error("Scene init error:", err);
+    dismissLoadingScreen();
+  }
 });
 
 k.go("main");
-
-k.onLoad(() => {
-  const loadingScreen = document.getElementById("loading-screen");
-  loadingScreen.classList.add("fade-out");
-  setTimeout(() => loadingScreen.remove(), 500);
-});
