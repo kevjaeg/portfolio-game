@@ -68,3 +68,75 @@ export function setupKeyboardMovement(k, player) {
     }
   });
 }
+
+export function setupClickToMove(k, player, pathfindingGrid) {
+  let currentPath = null;
+  let pathIndex = 0;
+
+  function stopAnims() {
+    if (player.direction === "down") player.play("idle-down");
+    else if (player.direction === "up") player.play("idle-up");
+    else player.play("idle-side");
+  }
+
+  function getDirection(from, to) {
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    if (Math.abs(dx) > Math.abs(dy)) return dx > 0 ? "right" : "left";
+    return dy > 0 ? "down" : "up";
+  }
+
+  function playWalkAnim(dir) {
+    if (dir === "left" || dir === "right") {
+      player.flipX = dir === "left";
+      if (player.curAnim() !== "walk-side") player.play("walk-side");
+    } else if (dir === "up") {
+      if (player.curAnim() !== "walk-up") player.play("walk-up");
+    } else {
+      if (player.curAnim() !== "walk-down") player.play("walk-down");
+    }
+    player.direction = dir;
+  }
+
+  k.onClick(() => {
+    if (player.isInDialogue) return;
+    const worldPos = k.toWorld(k.mousePos());
+    const path = pathfindingGrid.findPath(
+      player.pos.x,
+      player.pos.y,
+      worldPos.x,
+      worldPos.y
+    );
+    if (path && path.length > 1) {
+      currentPath = path;
+      pathIndex = 1;
+    }
+  });
+
+  k.onUpdate(() => {
+    if (!currentPath || player.isInDialogue) return;
+    if (pathIndex >= currentPath.length) {
+      currentPath = null;
+      stopAnims();
+      return;
+    }
+    const target = currentPath[pathIndex];
+    const dist = player.pos.dist(k.vec2(target.x, target.y));
+    if (dist < 5) {
+      pathIndex++;
+      if (pathIndex >= currentPath.length) {
+        currentPath = null;
+        stopAnims();
+      }
+      return;
+    }
+    const dir = getDirection({ x: player.pos.x, y: player.pos.y }, target);
+    playWalkAnim(dir);
+    player.moveTo(k.vec2(target.x, target.y), player.speed);
+  });
+
+  // Cancel pathfinding when keyboard is used
+  k.onKeyDown(() => {
+    currentPath = null;
+  });
+}
