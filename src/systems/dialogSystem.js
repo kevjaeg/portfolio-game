@@ -20,15 +20,17 @@ export function openDialog(dialogId, onClose) {
   let charIndex = 0;
   const fullText = data.content;
 
+  const render = (text) => text.replace(/\n/g, "<br>");
+
   typewriterInterval = setInterval(() => {
     if (charIndex < fullText.length) {
       content.innerHTML =
-        fullText.substring(0, charIndex + 1) + '<span class="cursor"></span>';
+        render(fullText.substring(0, charIndex + 1)) + '<span class="cursor"></span>';
       charIndex++;
     } else {
       clearInterval(typewriterInterval);
       typewriterInterval = null;
-      content.innerHTML = fullText + '<span class="cursor"></span>';
+      content.innerHTML = render(fullText) + '<span class="cursor"></span>';
     }
   }, DIALOG_SPEED);
 
@@ -36,7 +38,7 @@ export function openDialog(dialogId, onClose) {
     if (typewriterInterval) {
       clearInterval(typewriterInterval);
       typewriterInterval = null;
-      content.innerHTML = fullText + '<span class="cursor"></span>';
+      content.innerHTML = render(fullText) + '<span class="cursor"></span>';
     }
   }
 
